@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dictionary</title>
+</head>
+
+<body onload="onLoad()">
+  <h1>{{word}}</h1>
+  <div>
+    <h2>{{phonetic}}</h2>
+    <button disabled id="audio-player">Play Audio</button>
+  </div>
+
+  @each(meaning in meanings)
+  <h3>{{meaning.partOfSpeech}}</h3>
+  <h4>Meaning</h4>
+  <ul>
+    @each(definition in meaning.definitions)
+    <li>{{definition.definition}}</li>
+    @end
+  </ul>
+
+  <p>Synonyms</p>
+  <p>
+    @let(synonyms = getSynonymsFromDefinitions(meaning.definitions))
+    {{synonyms}}
+  </p>
+  @end
+</body>
+
+<script>
+  function onLoad() {
+    manageAudio();
+  }
+
+  function manageAudio() {
+    const audioSrc = "{{getAudioFromPhonetics(phonetics)}}";
+    const audio = new Audio(audioSrc);
+    const audioPlayerButton = document.getElementById("audio-player");
+
+    audio.oncanplay = function (event) {
+      console.log('CAN PLAY');
+      audioPlayerButton.disabled = false;
+      audioPlayerButton.onclick = function () {
+        audio.play();
+      }
+    }
+
+    audio.onplaying = function (event) {
+      console.log('PLAYING');
+      audioPlayerButton.innerHTML = "Pause audio";
+      audioPlayerButton.onclick = function () {
+        audio.pause();
+      }
+    }
+
+    audio.onpause = function (event) {
+      console.log('PAUSED');
+      audioPlayerButton.innerHTML = "Play audio";
+      audioPlayerButton.onclick = function () {
+        audio.play();
+      }
+    }
+
+    audio.onended = function (event) {
+      console.log('ENDED');
+      audioPlayerButton.innerHTML = "Play audio";
+      audioPlayerButton.onclick = function () {
+        audio.play();
+      }
+    }
+  }
+</script>
+
+</html>

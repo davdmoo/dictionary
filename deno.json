@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "jsx": "precompile",
+    "jsxImportSource": "hono/jsx"
+  },
+  "imports": {
+    "edge.js": "npm:edge.js@^6.2.0",
+    "hono": "jsr:@hono/hono@^4.6.3"
+  },
+  "tasks": {
+    "start": "deno run --watch --allow-env --allow-net --allow-read main.ts"
+  }
+}
