@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { html } from "hono/html";
 import { Edge } from "npm:edge.js";
+import { dictionaries } from "./handlers/dictionary.handler.ts";
 import getAudioFromPhonetics from "./helpers/get_audio_from_phonetics.helper.ts";
 import getSynonymsFromDefinitions from "./helpers/get_synonyms_from_definitions.helper.ts";
 import Dictionary from "./models/dictionary.model.ts";
@@ -9,6 +10,7 @@ const app = new Hono();
 
 export const edge = Edge.create();
 edge.mount(new URL("./views", import.meta.url));
+
 edge.global("getSynonymsFromDefinitions", getSynonymsFromDefinitions);
 edge.global("getAudioFromPhonetics", getAudioFromPhonetics);
 
@@ -42,5 +44,7 @@ app.get("/", async (c) => {
   const indexPage = await edge.render("index", { ...data });
   return c.html(indexPage);
 });
+
+app.route("/dictionaries", dictionaries);
 
 Deno.serve(app.fetch);

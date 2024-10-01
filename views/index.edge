@@ -5,30 +5,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dictionary</title>
+  <script src="https://unpkg.com/htmx.org@2.0.2"
+    integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ"
+    crossorigin="anonymous"></script>
 </head>
 
 <body onload="onLoad()">
-  <h1>{{word}}</h1>
-  <div>
-    <h2>{{phonetic}}</h2>
-    <button disabled id="audio-player">Play Audio</button>
-  </div>
+  <button hx-get="/dictionaries?word=test" hx-target="#response" hx-swap="outerHTML">Get</button>
+  <div id="response" onload="onLoad()">
+    <h1>{{word}}</h1>
+    <div>
+      <h2>{{phonetic}}</h2>
+      <button disabled id="audio-player">Play Audio</button>
+    </div>
 
-  @each(meaning in meanings)
-  <h3>{{meaning.partOfSpeech}}</h3>
-  <h4>Meaning</h4>
-  <ul>
-    @each(definition in meaning.definitions)
-    <li>{{definition.definition}}</li>
+    @each(meaning in meanings)
+    <h3>{{meaning.partOfSpeech}}</h3>
+    <h4>Meaning</h4>
+    <ul>
+      @each(definition in meaning.definitions)
+      <li>{{definition.definition}}</li>
+      @end
+    </ul>
+
+    <p>Synonyms</p>
+    <p>
+      @let(synonyms = getSynonymsFromDefinitions(meaning.definitions))
+      {{synonyms}}
+    </p>
     @end
-  </ul>
-
-  <p>Synonyms</p>
-  <p>
-    @let(synonyms = getSynonymsFromDefinitions(meaning.definitions))
-    {{synonyms}}
-  </p>
-  @end
+  </div>
 </body>
 
 <script>

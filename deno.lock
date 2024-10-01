@@ -3,12 +3,16 @@
   "packages": {
     "specifiers": {
       "jsr:@hono/hono@^4.6.3": "jsr:@hono/hono@4.6.3",
+      "jsr:@std/dotenv": "jsr:@std/dotenv@0.225.2",
       "npm:edge.js": "npm:edge.js@6.2.0",
       "npm:edge.js@^6.2.0": "npm:edge.js@6.2.0"
     },
     "jsr": {
       "@hono/hono@4.6.3": {
         "integrity": "a1f5a18cd12a0db54755b0461dd5a4e2d93a6f85403073eb710103eacc42daf3"
+      },
+      "@std/dotenv@0.225.2": {
+        "integrity": "e2025dce4de6c7bca21dece8baddd4262b09d5187217e231b033e088e0c4dd23"
       }
     },
     "npm": {
@@ -162,7 +166,10 @@
       }
     }
   },
-  "remote": {},
+  "remote": {
+    "https://cdn.jsdelivr.net/gh/lit/dist@3/all/lit-all.min.js": "4f9c4a2f15af56ef373f133387b1da1401e48a5f2dac69e2f981b12d38c1ebef",
+    "https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js": "03793f9788d91288aec8d922eb1c6f7f8ec9d40de698ee1de5b300b6a76592b8"
+  },
   "workspace": {
     "dependencies": [
       "jsr:@hono/hono@^4.6.3",
