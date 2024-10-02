@@ -15,24 +15,6 @@ edge.global("getSynonymsFromDefinitions", getSynonymsFromDefinitions);
 edge.global("getAudioFromPhonetics", getAudioFromPhonetics);
 
 app.get("/", async (c) => {
-  // const response = await fetch(
-  //   " https://api.dictionaryapi.dev/api/v2/entries/en/word",
-  // );
-  // const jsonData = await response.json();
-
-  // if (response.ok) {
-  //   const data = jsonData as Array<any>;
-  //   console.log(data);
-
-  //   if (data.length < 1) {
-  //     return c.html(html`<div>404 Not Found</div>`);
-  //   }
-
-  //   return c.html(html`<p>${data.at(0)["phonetic"]}</p>`);
-  // }
-
-  // return c.html(html`<div>404 Not Found</div>`);
-
   const response = await Deno.readTextFile("dictionary.json");
   const jsonResponse = JSON.parse(response) as Array<Dictionary>;
 

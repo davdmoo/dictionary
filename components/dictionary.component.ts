@@ -5,6 +5,14 @@ export default function dictionaryComponent(dictionary: Dictionary) {
   const { word, phonetic, meanings, phonetics } = dictionary;
 
   const meaningElements = meanings.map(function (meaning) {
+    const synonyms = meaning.synonyms.length > 1
+      ? `
+          <div>
+            <p>Synonyms</p>
+            <p>${meaning.synonyms.map((el) => el).join(", ")}</p> 
+          </div>`
+      : "";
+
     return `
       <h3>${meaning.partOfSpeech}</h3>
       <h4>Meaning</h4>
@@ -15,15 +23,22 @@ export default function dictionaryComponent(dictionary: Dictionary) {
       }).join("")
     }
       </ul>
+      ${synonyms}
     `;
   }).join("");
+
+  const audioSrc = getAudioFromPhonetics(phonetics);
+  const audioElement = audioSrc === undefined
+    ? ""
+    : `<audio src="${getAudioFromPhonetics(phonetics)}"></audio>`;
 
   return `
     <div id="response">
       <h1>${word}</h1>
       <div>
         <h2>${phonetic}</h2>
-        <audio controls src="${getAudioFromPhonetics(phonetics)}"></audio>
+        ${audioElement}
+        <button disabled id="audio-player">Play audio</button>
       </div>
       ${meaningElements}
     </div>

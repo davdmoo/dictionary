@@ -11,12 +11,16 @@
 </head>
 
 <body onload="onLoad()">
-  <button hx-get="/dictionaries?word=test" hx-target="#response" hx-swap="outerHTML">Get</button>
-  <div id="response" onload="onLoad()">
+  <form hx-get="/dictionaries" hx-target="#response" hx-swap="outerHTML">
+    <input type="text" name="word" id="word-input">
+    <button type="submit">Search</button>
+  </form>
+
+  <div id="response">
     <h1>{{word}}</h1>
     <div>
       <h2>{{phonetic}}</h2>
-      <button disabled id="audio-player">Play Audio</button>
+      <button disabled id="audio-player">Play audio</button>
     </div>
 
     @each(meaning in meanings)
@@ -39,16 +43,29 @@
 
 <script>
   function onLoad() {
-    manageAudio();
+    const audioSrc = "{{getAudioFromPhonetics(phonetics)}}";
+    if (audioSrc === undefined) return;
+
+    manageAudio("{{getAudioFromPhonetics(phonetics)}}");
   }
 
-  function manageAudio() {
-    const audioSrc = "{{getAudioFromPhonetics(phonetics)}}";
-    const audio = new Audio(audioSrc);
+  document.body.addEventListener("htmx:afterSwap", function (event) {
+    if (event.target.id === "response") {
+      const audioElement = document.querySelector("audio");
+      if (audioElement === null) return;
+
+      manageAudio(audioElement.src);
+    }
+  });
+
+  /**
+  * @param {string} audioSource
+  */
+  function manageAudio(audioSource) {
+    const audio = new Audio(audioSource);
     const audioPlayerButton = document.getElementById("audio-player");
 
     audio.oncanplay = function (event) {
-      console.log('CAN PLAY');
       audioPlayerButton.disabled = false;
       audioPlayerButton.onclick = function () {
         audio.play();
@@ -56,7 +73,6 @@
     }
 
     audio.onplaying = function (event) {
-      console.log('PLAYING');
       audioPlayerButton.innerHTML = "Pause audio";
       audioPlayerButton.onclick = function () {
         audio.pause();
@@ -64,7 +80,6 @@
     }
 
     audio.onpause = function (event) {
-      console.log('PAUSED');
       audioPlayerButton.innerHTML = "Play audio";
       audioPlayerButton.onclick = function () {
         audio.play();
@@ -72,13 +87,13 @@
     }
 
     audio.onended = function (event) {
-      console.log('ENDED');
       audioPlayerButton.innerHTML = "Play audio";
       audioPlayerButton.onclick = function () {
         audio.play();
       }
     }
   }
+
 </script>
 
 </html>
