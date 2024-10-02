@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { serveStatic } from "hono/deno";
 import { html } from "hono/html";
 import { Edge } from "npm:edge.js";
 import { dictionaries } from "./handlers/dictionary.handler.ts";
@@ -7,6 +8,7 @@ import getSynonymsFromDefinitions from "./helpers/get_synonyms_from_definitions.
 import Dictionary from "./models/dictionary.model.ts";
 
 const app = new Hono();
+app.use("/favicon.ico", serveStatic({ path: "/static/icon.png" }));
 
 export const edge = Edge.create();
 edge.mount(new URL("./views", import.meta.url));

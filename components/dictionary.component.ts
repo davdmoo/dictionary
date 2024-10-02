@@ -33,14 +33,12 @@ export default function dictionaryComponent(dictionary: Dictionary) {
     : `<audio src="${getAudioFromPhonetics(phonetics)}"></audio>`;
 
   return `
-    <div id="response">
-      <h1>${word}</h1>
-      <div>
-        <h2>${phonetic}</h2>
-        ${audioElement}
-        <button disabled id="audio-player">Play audio</button>
-      </div>
-      ${meaningElements}
+    <h1>${word}</h1>
+    <div>
+      <h2>${phonetic}</h2>
+      ${audioElement}
+      <button disabled id="audio-player">Play audio</button>
     </div>
+    ${meaningElements}
   `;
 }

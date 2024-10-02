@@ -1,6 +1,5 @@
 import { Hono } from "hono";
 import { html } from "hono/html";
-import "jsr:@std/dotenv/load";
 import dictionaryComponent from "../components/dictionary.component.ts";
 
 export const dictionaries = new Hono();
@@ -8,7 +7,7 @@ export const dictionaries = new Hono();
 dictionaries.get("/", async (c) => {
   try {
     const word = c.req.query("word");
-    const baseUrl = Deno.env.get("BASE_URL");
+    const baseUrl = "https://api.dictionaryapi.dev/api";
 
     const response = await fetch(`${baseUrl}/v2/entries/en/${word}`);
     const jsonResponse = await response.json();

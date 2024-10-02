@@ -11,7 +11,7 @@
 </head>
 
 <body onload="onLoad()">
-  <form hx-get="/dictionaries" hx-target="#response" hx-swap="outerHTML">
+  <form hx-get="/dictionaries" hx-target="#response" hx-swap="innerHTML">
     <input type="text" name="word" id="word-input">
     <button type="submit">Search</button>
   </form>
