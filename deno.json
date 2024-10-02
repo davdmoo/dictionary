@@ -9,5 +9,13 @@
   },
   "tasks": {
     "start": "deno run --watch --allow-env --allow-net --allow-read main.ts"
+  },
+  "deploy": {
+    "project": "46a9590b-d98b-4704-a697-a7798bde3cb4",
+    "exclude": [
+      "**/node_modules"
+    ],
+    "include": [],
+    "entrypoint": "main.ts"
   }
 }
